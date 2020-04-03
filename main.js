@@ -4,6 +4,7 @@ const YEAR = document.querySelector('#year');
 const MOVIES_LIST = document.querySelector('#movies-list');
 const MOVIES_FORM = document.querySelector('#movies-form');
 const DIV_CONTAINER = document.querySelector('.container');
+// const DELETE_BTN = document.querySelector('.delete');
 
 class Movie {
   constructor(title, genre, year) {
@@ -20,7 +21,7 @@ class MoviesList {
       <td>${movie.title}</td>
       <td>${movie.genre}</td>
       <td>${movie.year}</td>
-      <td><a href="#" class="delete">X</a></td>
+      <td><a href="#" class="delete" onclick="deleteMovie(event)">X</a></td>
     `;
 
     MOVIES_LIST.appendChild(ROW);
@@ -42,6 +43,12 @@ class MoviesList {
 
     setTimeout(() => { ERROR_MSG.remove(); }, 2000);
   }
+
+  deleteMovieFromList(target) {
+    if (target.className === 'delete') {
+      target.parentElement.parentElement.remove();
+    }
+  }
 }
 
 function submitMovie(event) {
@@ -58,4 +65,13 @@ function submitMovie(event) {
     LIST.addMovieToList(MOVIE);
     LIST.clearInputs();
   }
+}
+
+function deleteMovie(event) {
+  event.preventDefault();
+
+  const LIST = new MoviesList();
+
+  LIST.deleteMovieFromList(event.target);
+  LIST.displayAlert('Movie deleted!', 'success');
 }
