@@ -11,7 +11,7 @@
 		<script defer src="main.js"></script>
 		<title>Movies Wishlist App</title>
 	</head>
-	<body>
+	<body onload="LocalStorage.displayMovies()">
 		<div class="container">
 			<h1>Movies to watch</h1>
 			<form id="movies-form" onsubmit="submitMovie(event)">

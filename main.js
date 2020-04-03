@@ -4,7 +4,6 @@ const YEAR = document.querySelector('#year');
 const MOVIES_LIST = document.querySelector('#movies-list');
 const MOVIES_FORM = document.querySelector('#movies-form');
 const DIV_CONTAINER = document.querySelector('.container');
-// const DELETE_BTN = document.querySelector('.delete');
 
 class Movie {
   constructor(title, genre, year) {
@@ -14,7 +13,7 @@ class Movie {
   }
 }
 
-class MoviesList {
+class ListOfMovies {
   addMovieToList(movie) {
     const ROW = document.createElement('tr');
     ROW.innerHTML = `
@@ -51,18 +50,52 @@ class MoviesList {
   }
 }
 
+class LocalStorage {
+  static addMovie(movie) {
+    let movies = LocalStorage.getMovie();
+
+    movies.push(movie);
+
+    localStorage.setItem('movies', JSON.stringify(movies));
+  }
+
+  static displayMovies() {
+    let movies = LocalStorage.getMovie();
+    movies.forEach(movie => {
+      const LIST = new ListOfMovies();
+      LIST.addMovieToList(movie);
+    });
+  }
+
+  static getMovie() {
+    let movies;
+    if (localStorage.getItem('movies') === null) {
+      movies = [];
+    } else {
+      movies = JSON.parse(localStorage.getItem('movies'));
+    }
+    return movies;
+  }
+
+  static removeMovie() {
+
+  }
+}
+
 function submitMovie(event) {
   event.preventDefault();
 
   const MOVIE = new Movie(TITLE.value, GENRE.value, YEAR.value);
 
-  const LIST = new MoviesList();
+  const LIST = new ListOfMovies();
 
   if (TITLE.value === '' || GENRE.value === '' || YEAR.value === '') {
     LIST.displayAlert('Please fill in all inputs', 'error');
   } else {
-    LIST.displayAlert('Movie added', 'success');
     LIST.addMovieToList(MOVIE);
+    LocalStorage.addMovie(MOVIE);
+
+    LIST.displayAlert('Movie added', 'success');
     LIST.clearInputs();
   }
 }
@@ -70,8 +103,10 @@ function submitMovie(event) {
 function deleteMovie(event) {
   event.preventDefault();
 
-  const LIST = new MoviesList();
+  const LIST = new ListOfMovies();
 
   LIST.deleteMovieFromList(event.target);
+
+
   LIST.displayAlert('Movie deleted!', 'success');
 }
