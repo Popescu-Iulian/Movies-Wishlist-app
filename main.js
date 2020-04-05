@@ -13,7 +13,7 @@ class Movie {
   }
 }
 
-class ListOfMovies {
+class DrawMoviesUI {
   addMovieToList(movie) {
     const ROW = document.createElement('tr');
     ROW.innerHTML = `
@@ -61,8 +61,9 @@ class LocalStorage {
 
   static displayMovies() {
     let movies = LocalStorage.getMovie();
+
     movies.forEach(movie => {
-      const LIST = new ListOfMovies();
+      const LIST = new DrawMoviesUI();
       LIST.addMovieToList(movie);
     });
   }
@@ -77,8 +78,16 @@ class LocalStorage {
     return movies;
   }
 
-  static removeMovie() {
+  static removeMovie(year) {
+    let movies = LocalStorage.getMovie();
 
+    movies.forEach((movie, index) => {
+      if (movie.year === year) {
+        movies.splice(index, 1);
+      }
+    });
+
+    localStorage.setItem('movies', JSON.stringify(movies));
   }
 }
 
@@ -87,7 +96,7 @@ function submitMovie(event) {
 
   const MOVIE = new Movie(TITLE.value, GENRE.value, YEAR.value);
 
-  const LIST = new ListOfMovies();
+  const LIST = new DrawMoviesUI();
 
   if (TITLE.value === '' || GENRE.value === '' || YEAR.value === '') {
     LIST.displayAlert('Please fill in all inputs', 'error');
@@ -103,10 +112,11 @@ function submitMovie(event) {
 function deleteMovie(event) {
   event.preventDefault();
 
-  const LIST = new ListOfMovies();
+  const LIST = new DrawMoviesUI();
 
   LIST.deleteMovieFromList(event.target);
 
+  LocalStorage.removeMovie(event.target.parentElement.previousElementSibling.textContent);
 
   LIST.displayAlert('Movie deleted!', 'success');
 }
