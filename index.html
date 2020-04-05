@@ -3,46 +3,38 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"
-		/>
 		<link rel="stylesheet" href="style.css" />
 		<script defer src="main.js"></script>
 		<title>Movies Wishlist App</title>
 	</head>
 	<body onload="LocalStorage.displayMovies()">
-		<div class="container">
-			<h1>Movies to watch</h1>
-			<form id="movies-form" onsubmit="submitMovie(event)">
+		<div id="container">
+			<div class="inputs">
+				<h1>Movies to watch</h1>
 				<div>
-					<label for="title">Title</label>
-					<input type="text" id="title" class="u-full-width" />
+					<label>Title: <input type="text" class="title"/></label>
+					<label>Genre: <input type="text" class="genre"/></label>
+					<label>Year: <input type="text" class="year"/></label>
 				</div>
 				<div>
-					<label for="genre">Genre</label>
-					<input type="text" id="genre" class="u-full-width" />
+					<button class="btn" onclick="submitMovie(event)"></button>
 				</div>
-				<div>
-					<label for="year">Year</label>
-					<input type="text" id="year" class="u-full-width" />
-				</div>
-				<div>
-					<input type="submit" value="Submit" class="u-full-width" />
-				</div>
-			</form>
+			</div>
 
-			<table class="u-full-width">
-				<thead>
-					<tr>
-						<th>Title</th>
-						<th>Genre</th>
-						<th>Year</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody id="movies-list"></tbody>
-			</table>
+			<div class="head">
+				<ul class="table-head">
+					<li>
+						<em
+							><span>Title</span><span>Genre</span><span>Year</span
+							><span>Year</span></em
+						>
+					</li>
+				</ul>
+			</div>
+
+			<div class="contacts">
+				<ul class="table-body"></ul>
+			</div>
 		</div>
 	</body>
 </html>
